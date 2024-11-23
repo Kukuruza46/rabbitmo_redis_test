@@ -1,0 +1,15 @@
+# Используем Python-образ как основу
+FROM python:3.10
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем файлы проекта в контейнер
+COPY . /app
+
+# Устанавливаем зависимости
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Запускаем Celery worker
+CMD ["celery", "-A", "userproject", "worker", "--loglevel=info", "-P", "solo"]
